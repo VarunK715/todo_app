@@ -2,6 +2,9 @@
 from django.urls import path
 from . import views
 
+
+app_name = 'myfirsttodoapp'
+
 urlpatterns = [
     path('',views.home,name='home'),
     path('update/<int:task_id>/',views.update_task,name='update_task'),

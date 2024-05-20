@@ -1,0 +1,13 @@
+{% extends 'todoapp/base.html' %}
+
+
+{% block body %}
+<div class="container border my-4 p-2">
+    <h2>You Have Been Logged out </h2>
+    <div class="border-top pt-3">
+        <small class="text-muted"> <a class="ml-2 text-decoration-none" href="{% url 'login' %}">LogIn</a> Again</small>
+    </div>
+</div>
+
+</div>
+{% endblock %}

@@ -16,11 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
 from django.views.generic import RedirectView
+from user import views as user_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='/todoapp/')),  # Redirect root URL to todoapp
-    path('todoapp/',include('myfirsttodoapp.urls')),
+    #path('', RedirectView.as_view(url='/todoapp/')),  # Redirect root URL to todoapp
+    path('',include('myfirsttodoapp.urls')),
+    path('register/',user_view.user_register,name='register'),
+    path('login/',auth_views.LoginView.as_view(template_name = 'users/login.html'),name='login'),
+    path('logout/',user_view.logout_view,name='logout'),
+    path('user_profile/',user_view.user_profile,name='user_profile'),
+
+    #path('users/', include('user.urls')),  # Users app URLs
     path('admin/', admin.site.urls),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

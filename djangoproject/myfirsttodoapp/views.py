@@ -10,7 +10,7 @@ def home(request):
         task_name = request.POST.get('task')  # Access input data from POST request
         data = ToDoApp(task=task_name)
         data.save()
-        return redirect('home')
+        return redirect('myfirsttodoapp:home')
     
     #Fetching data from databases
     dataf = ToDoApp.objects.all()
@@ -20,7 +20,7 @@ def home(request):
     completed_task = ToDoApp.objects.filter(is_task_completed = True)
     completed_total = len(completed_task)
     
-    return render(request,'index.html',{'tasks':dataf,'total_count':total,'completed':completed_total})
+    return render(request,'todoapp/index.html',{'tasks':dataf,'total_count':total,'completed':completed_total})
 
 
 def update_task(request,task_id):
@@ -34,15 +34,15 @@ def update_task(request,task_id):
         instance = ToDoApp.objects.get(id=task_id)
         instance.task = update_task
         instance.save()
-        return redirect('home')
+        return redirect('myfirsttodoapp:home')
 
-    return render(request,'update.html',{'data':update_data,'taskid':task_id})
+    return render(request,'todoapp/update.html',{'data':update_data,'taskid':task_id})
 
 
 def delete_task(request,task_id):
     task = get_object_or_404(ToDoApp, id=task_id)
     task.delete()
-    return redirect('home')
+    return redirect('myfirsttodoapp:home')
 
 def mark_as_completed(request):
     if request.method == "POST":
@@ -61,5 +61,5 @@ def mark_as_completed(request):
             task.completed_task_at =completion_time
             task.save()
         completed_task.clear()
-        return redirect('home')
-    return redirect('home')
+        return redirect('myfirsttodoapp:home')
+    return redirect('myfirsttodoapp:home')
