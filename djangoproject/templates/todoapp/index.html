@@ -1,6 +1,6 @@
 {% extends 'todoapp/base.html' %}
 
-
+{% block title %} Task -{% endblock %}
 {% block head %}
 <style>
     .completed-text {
@@ -17,7 +17,7 @@
 </div>
 
 <div class="container my-3 border border-info">
-    <form action="{% url 'myfirsttodoapp:home' %}" method="POST">
+    <form action="{% url 'myfirsttodoapp:task' %}" method="POST">
         {% csrf_token %}
         <div class="m-2">
             <input type="text" class="form-control mt-3" name="task" id="" placeholder="" required>

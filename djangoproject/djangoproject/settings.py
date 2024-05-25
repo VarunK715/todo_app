@@ -140,7 +140,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-LOGIN_REDIRECT_URL = 'myfirsttodoapp:home'
+LOGIN_REDIRECT_URL = 'myfirsttodoapp:task'
 
 LOGIN_URL = 'login'
 

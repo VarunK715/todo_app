@@ -4,8 +4,12 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
 
-@login_required
+
 def home(request):
+    return render(request,'todoapp/home.html')
+
+@login_required
+def task(request):
     if request.method == 'POST':
         task_name = request.POST.get('task')  # Access input data from POST request
         data = ToDoApp(task=task_name,user=request.user)

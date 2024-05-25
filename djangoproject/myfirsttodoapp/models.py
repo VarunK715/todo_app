@@ -7,5 +7,6 @@ class ToDoApp(models.Model):
     is_task_completed = models.BooleanField(default=False)
     completed_task_at = models.DateTimeField(null=True,blank=True)
 
+    #below function return name of task as title in admin page
     def __str__(self):
         return self.task
