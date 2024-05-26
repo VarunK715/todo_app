@@ -4,12 +4,17 @@ from django.utils import timezone
 from datetime import date,timedelta
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
 def home(request):
     return render(request,'todoapp/home.html')
 
+
+# class About(LoginRequiredMixin,TemplateView):
+#     template_name="todoapp/about.html"
 
 @login_required
 def task(request):

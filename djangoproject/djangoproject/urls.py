@@ -30,6 +30,7 @@ urlpatterns = [
     path('login/',auth_views.LoginView.as_view(template_name = 'users/login.html'),name='login'),
     path('logout/',user_view.logout_view,name='logout'),
     path('user_profile/',user_view.user_profile,name='user_profile'),
+    path('about/',user_view.About,name='about'),
 
     #path('users/', include('user.urls')),  # Users app URLs
     path('admin/', admin.site.urls),

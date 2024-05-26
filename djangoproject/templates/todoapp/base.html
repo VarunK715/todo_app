@@ -24,6 +24,7 @@
             <div class="d-flex">
                 {% if user.is_authenticated %}
                 <!-- Links for authenticated users -->
+                <a class="nav-link mx-4 fw-bolder" href="{% url 'about' %}">About</a>
                 <a class="nav-link mx-4 fw-bolder" href="{% url 'user_profile' %}">Profile</a>
                 <a class="nav-link ms-4 me-5 fw-bolder" href="{% url 'logout' %}">LogOut</a>
                 {% else %}

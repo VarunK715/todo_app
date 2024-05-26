@@ -96,13 +96,15 @@
       <div class="col-2">
         <span>
           {% if task.is_task_completed %}
-          <button class="btn btn-success btn-sm ms-4" disabled>Update</button>
+          <a class="btn btn-danger btn-sm ms-4" href="{% url 'myfirsttodoapp:delete_task' task.id %}"
+          role="button">Delete</a>
           {% else %}
           <a class="btn btn-success btn-sm ms-4" href="{% url 'myfirsttodoapp:update_task' task.id %}"
             role="button">Update</a>
-          {% endif %}
-          <a class="btn btn-danger btn-sm" href="{% url 'myfirsttodoapp:delete_task' task.id %}"
+            <a class="btn btn-danger btn-sm" href="{% url 'myfirsttodoapp:delete_task' task.id %}"
             role="button">Delete</a>
+          {% endif %}
+          
         </span>
       </div>
     </div>

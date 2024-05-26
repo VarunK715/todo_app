@@ -5,6 +5,8 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 
+def About(request):
+    return render(request,'todoapp/about.html')
 
 def user_register(request):
     if request.method == 'POST':

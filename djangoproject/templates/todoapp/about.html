@@ -1,0 +1,84 @@
+{% extends 'todoapp/base.html' %} 
+{% block title %} About -{% endblock %} 
+
+
+
+{% block body %}
+<div class="container mt-3">
+  <h1 class="mb-4">Usage Instructions</h1>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>Adding Tasks</h2>
+    </div>
+    <div class="card-body">
+      <ol>
+        <li>Log in to the application.</li>
+        <li>Use the form to add new tasks, specifying the task name, priority, and due date.</li>
+        <li>Click the <strong>"Add Task"</strong> button to save the task.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>Managing Tasks</h2>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Update:</strong> Click the <strong>"Update"</strong> button next to a task to modify its details. The update button is disabled for completed tasks.</li>
+        <li><strong>Delete:</strong> Click the <strong>"Delete"</strong> button next to a task to remove it. Completed tasks are automatically deleted.</li>
+        <li><strong>Mark as Completed:</strong> Use the checkbox to mark a task as completed. Once marked, the task will be automatically deleted.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>Sorting and Searching</h2>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Sort by Priority:</strong> Use the dropdown menu to sort tasks by priority level.</li>
+        <li><strong>Search Tasks:</strong> Use the search bar to find tasks by keyword.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>Due Date Warnings</h2>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li>If a task's due date is today, a warning message will be displayed.</li>
+        <li>If a task's due date is tomorrow, a warning message will be displayed.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>Authentication</h2>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Registration:</strong> Create a new account using the registration page.</li>
+        <li><strong>Login:</strong> Log in to access your tasks and profile.</li>
+        <li><strong>Logout:</strong> Log out to end your session.</li>
+        <li><strong>Profile:</strong> View your profile details.</li>
+      </ul>
+    </div>
+  </div>
+
+ <!-- <div class="card mb-4">
+    <div class="card-header">
+      <h2>License</h2>
+    </div>
+    <div class="card-body">
+      <p>This project is licensed under the MIT License. See the <strong>LICENSE</strong> file for details.</p>
+    </div>
+  </div>-->
+</div>
+{% endblock %}
+
