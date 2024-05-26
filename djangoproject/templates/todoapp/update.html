@@ -14,6 +14,8 @@
             <input type="text" class="form-control" id="taskName" name="update_taskname" value="{{data.task}}" required>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
+        <span class="text-end"><a class="btn btn-danger" href="{% url 'myfirsttodoapp:task' %}" role="button">Cancel</a></span>
+        
     </form>
 </div>
 {% endblock %}

@@ -47,7 +47,7 @@ def task(request):
         if data.due_date and data.due_date == tomorrow:
             messages.warning(request, f"The task '{data.task}' is due on {tomorrow.strftime('%d/%m/%Y')}.")
         elif data.due_date and data.due_date == date.today():
-            messages.danger(request, f"The task '{data.task}' is due today.")
+            messages.warning(request, f"The task '{data.task}' is due today.")
         
     completed_task = ToDoApp.objects.filter(user=request.user, is_task_completed=True)
     completed_total = len(completed_task)
