@@ -12,10 +12,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def home(request):
     return render(request,'todoapp/home.html')
 
-
-# class About(LoginRequiredMixin,TemplateView):
-#     template_name="todoapp/about.html"
-
 @login_required
 def task(request):
     if request.method == 'POST':

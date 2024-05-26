@@ -8,6 +8,10 @@ from django.contrib.auth.decorators import login_required
 def About(request):
     return render(request,'todoapp/about.html')
 
+# class About(LoginRequiredMixin,TemplateView):
+#     template_name="todoapp/about.html"
+
+
 def user_register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
