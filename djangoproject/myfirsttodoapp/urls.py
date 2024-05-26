@@ -12,4 +12,5 @@ urlpatterns = [
     path('delete/<int:task_id>/',views.delete_task,name='delete_task'),
     path('completed/',views.mark_as_completed,name='mark_as_completed'),
 
+
 ]

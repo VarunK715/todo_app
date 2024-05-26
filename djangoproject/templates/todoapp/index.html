@@ -1,87 +1,125 @@
-{% extends 'todoapp/base.html' %}
-
-{% block title %} Task -{% endblock %}
-{% block head %}
+{% extends 'todoapp/base.html' %} {% block title %} Task -{% endblock %} 
+{%block head %}
 <style>
-    .completed-text {
-        text-decoration: line-through;
-    }
+  .completed-text {
+    text-decoration: line-through;
+  }
 </style>
-{% endblock %}
+{% endblock %} {% block body %}
 
-
-{% block body %}
-
-<div class="container my-2">
-    <h2>Your ToDo</h2>
+<div class="container my-2" style="display: flex; justify-content: space-between;">
+  <h2 class="fw-bold  fst-italic">Your ToDo</h2>
+  <form class="d-flex" role="search" style="width: 400px;" method="post" action="{% url 'myfirsttodoapp:task' %}">
+    {% csrf_token %}
+    <input class="form-control me-2" name="search"  type="search" placeholder="Search" aria-label="Search" />
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
 </div>
 
-<div class="container my-3 border border-info">
-    <form action="{% url 'myfirsttodoapp:task' %}" method="POST">
-        {% csrf_token %}
-        <div class="m-2">
-            <input type="text" class="form-control mt-3" name="task" id="" placeholder="" required>
+<div class="container my-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+  <form action="{% url 'myfirsttodoapp:task' %}" method="POST">
+    {% csrf_token %}
+    <div class="m-2">
+      <input type="text" class="form-control mt-3" name="task" id="" placeholder="Type Your Task Here ..." required />
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-5">
+          <div class="form-group mt-3" style="width: 150px">
+            <label for="id_priority" class="fw-bold">Priority</label>
+            <select name="priority" class="form-control mt-1" id="id_priority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
         </div>
-        <div class="m-2">
-            <button type="submit" class="btn btn-outline-dark btn-sm px-3">Add Task</button>
+        <div class="col-5">
+          <div class="form-group mt-3 ms-2" style="width: 250px">
+            <label for="id_due_date" class="fw-bold">Due Date</label>
+            <input type="date" name="due_date" placeholder="MM/DD/YYY" class="form-control mt-1" id="id_due_date" />
+          </div>
         </div>
-    </form>
+      </div>
+    </div>
+
+    <div class="d-flex mt-4 mb-3 ms-2">
+      <button type="submit" class="fw-bold btn btn-outline-dark btn-primary btn-sm px-3">Add Task</button>
+    </div>
+  </form>
 </div>
 
-<div class="container ">
-    <span>
-
-        <div class="row justify-content-end">
-            <div class="badge text-center bg-dark-subtle text-dark-emphasis text-wrap p-2 my-2" style="width:8rem;">
-                Total : {{total_count}}</div> &nbsp;
-            <div class="badge text-center bg-dark-subtle text-dark-emphasis text-wrap p-2 my-2" style="width:8rem;">
-                Completed : {{completed}}</div>
-        </div>
-
-    </span>
+<div class="container">
+  <span>
+    <div class="row justify-content-end">
+      <div class="col-auto d-flex"> <!-- Use d-flex and align-items-center to align items vertically -->
+        <form action="{% url 'myfirsttodoapp:task' %}" id="priorityform" method="POST">
+          {% csrf_token %}
+          <select name="priority_sort" class="form-control border" id="priority_sort"  style="height:37px;" >
+            <option disabled selected>Sort By Priority</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </form>
+      </div>
+      <div class="badge bg-dark-subtle text-dark-emphasis text-wrap me-2" style="width:8rem;height:37px;padding:13px;">
+        Total : {{total_count}}
+      </div>
+      &nbsp;
+      <div class="badge bg-dark-subtle text-dark-emphasis text-wrap" style="width:8rem;height:37px;padding:13px;">
+        Completed : {{completed}}
+      </div>
+    </div>
+  </span>
 </div>
 
 
-<div class="container border border-info">
-    <form id="myForm" action="{% url 'myfirsttodoapp:mark_as_completed' %}" method="POST">
-        {% csrf_token %}
-        {% if tasks|length == 0%}
-        <div class="alert alert-dark my-1" role="alert">
-            No ToDo's Found, Please Add it.
-        </div>
-        {% else %}
-        {% for task in tasks %}
-        <div class="row containerp-fluid border p-1 mx-1 my-2 text-bg-light">
-            <div class="col-1">
-                <input class="form-check-input mt-2 border border-danger mycheckbox " title="Mark As Completed"
-                    type="checkbox" value="{{task.id}}" name="completed" {% if task.is_task_completed%}checked{% endif %}>
-            </div>
-            <div class="col-1 mt-1">{{forloop.counter}}</div>
-            <div class="col-8 mt-1 text fs-6 text-capitalize {% if task.is_task_completed %}completed-text{% endif %}">{{task.task}}</div>
-            <div class="col-2">
-                <span>
-                    {% if task.is_task_completed %}
-                    <button class="btn btn-success btn-sm" disabled>Update</button>
-                    {% else %}
-                    <a class="btn btn-success btn-sm" href="{% url 'myfirsttodoapp:update_task' task.id %}" role="button">Update</a>
-                    {% endif %}
-                    <a class="btn btn-danger btn-sm" href="{% url 'myfirsttodoapp:delete_task' task.id %}" role="button">Delete</a>
-                </span>
-            </div>
-        </div>
-        {% endfor %}
-        {% endif %}
-    </form>
+<div class="container mt-2 border shadow-sm ms-1 me-1 mb-5 bg-body-tertiary rounded">
+  <form id="myForm" action="{% url 'myfirsttodoapp:mark_as_completed' %}" method="POST">
+    {% csrf_token %} {% if tasks|length == 0 %}
+    <div class="alert alert-dark my-1" role="alert">
+      No ToDo's Found, Please Add it.
+    </div>
+    {% else %} {% for task in tasks %}
+    <div class="row container-fluid border p-1 mx-1 my-2 text-bg-light scrollable-div">
+      <div class="col-1">
+        <input class="form-check-input mt-2 border border-danger mycheckbox" title="Mark As Completed" type="checkbox"
+          value="{{ task.id }}" name="completed" {% if task.is_task_completed %}checked{% endif %} />
+      </div>
+      <div class="col-1 mt-1">{{ forloop.counter }}</div>
+      <div class="col-6 mt-1 text fs-6 text-capitalize {% if task.is_task_completed %}completed-text{% endif %}">
+        {{ task.task }}
+      </div>
+      <div class="col-1 mt-1 text-capitalize fs-6">{{task.priority}}</div>
+      <div class="col-1 mt-1">{{task.due_date| date:'d/m/Y'}}</div>
+      <div class="col-2">
+        <span>
+          {% if task.is_task_completed %}
+          <button class="btn btn-success btn-sm ms-4" disabled>Update</button>
+          {% else %}
+          <a class="btn btn-success btn-sm ms-4" href="{% url 'myfirsttodoapp:update_task' task.id %}"
+            role="button">Update</a>
+          {% endif %}
+          <a class="btn btn-danger btn-sm" href="{% url 'myfirsttodoapp:delete_task' task.id %}"
+            role="button">Delete</a>
+        </span>
+      </div>
+    </div>
+    {% endfor %} {% endif %}
+  </form>
 </div>
 
 <script>
-    var checkboxes = document.querySelectorAll('.mycheckbox');
-    checkboxes.forEach(function (checkbox) {
-        checkbox.addEventListener('change', function () {
-            document.getElementById("myForm").submit();
-        });
+  var checkboxes = document.querySelectorAll(".mycheckbox");
+  checkboxes.forEach(function (checkbox) {
+    checkbox.addEventListener("change", function () {
+      document.getElementById("myForm").submit();
     });
+  });
+
+  document.getElementById('priority_sort').addEventListener('change', function() {
+    document.getElementById("priorityform").submit();
+  });
 </script>
-
-
 {% endblock%}

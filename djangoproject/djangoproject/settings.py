@@ -82,8 +82,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'todoapp',
-        'USER': 'root',
-        'PASSWORD' : '1234',
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD' : os.environ.get('DB_PASS'),
         'HOST':'localhost',
         'PORT':'3306',
     }
@@ -143,5 +143,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 LOGIN_REDIRECT_URL = 'myfirsttodoapp:task'
 
 LOGIN_URL = 'login'
-
 
