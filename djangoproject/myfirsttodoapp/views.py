@@ -28,6 +28,7 @@ def task(request):
             # Handle sorting by priority
             priority_sort = request.POST.get('priority_sort')
             dataf = ToDoApp.objects.filter(priority=priority_sort, user=request.user)
+            
         elif 'search' in request.POST:
             # Handle sorting by priority
             keyword_search = request.POST.get('search')
@@ -54,8 +55,10 @@ def task(request):
     for data in dataf:
         if data.due_date and data.due_date == tomorrow:
             messages.warning(request, f"The task '{data.task}' is due on {tomorrow.strftime('%d/%m/%Y')}.")
+            #return redirect('myfirsttodoapp:task')
         elif data.due_date and data.due_date == date.today():
             messages.warning(request, f"The task '{data.task}' is due today.")
+            #return redirect('myfirsttodoapp:task')
         
     completed_task = ToDoApp.objects.filter(user=request.user, is_task_completed=True)
     completed_total = len(completed_task)
@@ -74,6 +77,7 @@ def update_task(request,task_id):
         update_task = request.POST.get('update_taskname') 
         update_priority = request.POST.get('update_priority') 
         update_due_date = request.POST.get('update_due_date') 
+        
         instance = update_data
         instance.task = update_task
         instance.priority = update_priority

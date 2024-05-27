@@ -1,9 +1,33 @@
 {% extends 'todoapp/base.html' %}
+{% block head %}
+<style>
+    .typewriter h1 {
+        overflow: hidden; /* Ensures the content is not revealed until the animation */
+        border-right: .15em solid rgb(246, 0, 0); /* The typewriter cursor */
+        white-space: nowrap; /* Keeps the content on a single line */
+        margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+        letter-spacing:0px; /* Adjust as needed */
+        animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+    }
+
+    /* The typing effect */
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+
+    /* The typewriter cursor effect */
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: rgb(252, 1, 1); }
+    }
+</style>
+{% endblock  %}
 {% block guest_body %}
 <!-- Guest content goes here, which mean unaunticated content goes here-->
 <div class="container-fluid my-2 p-1 text-center border border-danger">
     <div class="row justify-content-center align-items-center" style="height: 720px;">
-        <div class="col-md-8 col-lg-6">
+        <div class="col-md-8 col-lg-7 typewriter">
             <h1 class="display-4 fw-bold mb-4 text-primary">Welcome to the ToDo App</h1>
             <p class="lead text-muted mb-5">Manage your tasks with ease. SignIn or Register to get started.</p>
             <div class="d-grid gap-2">

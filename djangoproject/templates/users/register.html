@@ -2,9 +2,9 @@
 {% load crispy_forms_tags %}
 {% block title %} Register -{% endblock %}
 {% block guest_body %}
-<div class="container border h-25">
+<div class="container  h-25">
     <div class="content-section">
-        <form method="POST">
+        <form method="POST" class="col-8 mx-auto card shadow-lg mt-5 p-3">
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Join today</legend>
@@ -13,10 +13,11 @@
             <div class="form-group mt-3">
                 <button class="btn btn-outline-primary mb-3" type="submit">Sign Up</button>
             </div>
+            <div class="border-top pt-3">
+                <small class="text-muted"> Already Have an Account? <a class="ml-2 text-decoration-none" href="{% url 'login' %}">Login Here</a></small>
+            </div>
         </form>
-        <div class="border-top pt-3">
-            <small class="text-muted"> Already Have an Account? <a class="ml-2 text-decoration-none" href="#">Login Here</a></small>
-        </div>
+       
     </div>
 </div>
 {% endblock %}
