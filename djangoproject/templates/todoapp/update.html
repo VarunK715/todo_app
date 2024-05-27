@@ -9,9 +9,29 @@
     <h2>Update Task</h2>
     <form action="{% url 'myfirsttodoapp:update_task' taskid %}" method="POST">
         {% csrf_token %}
-        <div class="mb-3">
+        <div class="mb-5">
             <label for="taskName" class="form-label">Task Name</label>
-            <input type="text" class="form-control" id="taskName" name="update_taskname" value="{{data.task}}" required>
+            <input type="text" class="form-control mb-3" id="taskName" name="update_taskname" value="{{data.task}}" required>
+            <div class="container">
+                <div class="row">
+                  <div class="col-5  p-1">
+                    <div class="form-group mt-3" style="width: 150px">
+                      <label for="id_priority" class="fw-bold">Priority</label>
+                      <select name="update_priority" class="form-control mt-1" id="id_priority">
+                        <option value="low" {% if data.priority == 'low' %} selected {% endif %}>Low</option>
+                        <option value="medium"  {% if data.priority == 'medium' %} selected {% endif %}>Medium</option>
+                        <option value="high" {% if data.priority == 'high' %} selected {% endif %}>High</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-5  p-1">
+                    <div class="form-group mt-3 ms-2" style="width: 250px">
+                      <label for="id_due_date" class="fw-bold">Due Date</label>
+                      <input type="date" name="update_due_date" placeholder="MM/DD/YYY" value="{{data.due_date|date:'Y-m-d' }}" class="form-control mt-1" id="id_due_date" />
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
         <span class="text-end"><a class="btn btn-danger" href="{% url 'myfirsttodoapp:task' %}" role="button">Cancel</a></span>

@@ -56,12 +56,17 @@ def update_task(request,task_id):
     #retrieving data from database
     update_data = ToDoApp.objects.get(id=task_id,user=request.user)
     
+    print(f"from update function -- {update_data} {update_data.priority} {update_data.due_date}")
 
     #getting updated deails from html form and pushing it to database
     if request.method == 'POST':
         update_task = request.POST.get('update_taskname') 
+        update_priority = request.POST.get('update_priority') 
+        update_due_date = request.POST.get('update_due_date') 
         instance = update_data
         instance.task = update_task
+        instance.priority = update_priority
+        instance.due_date = update_due_date
         instance.save()
         return redirect('myfirsttodoapp:task')
 
