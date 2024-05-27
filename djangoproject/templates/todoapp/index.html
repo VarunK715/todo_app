@@ -1,4 +1,4 @@
-{% extends 'todoapp/base.html' %} {% block title %} Task -{% endblock %} 
+{% extends 'todoapp/base.html' %} {% block title %} Task -{% endblock %}
 {%block head %}
 <style>
   .completed-text {
@@ -7,11 +7,11 @@
 </style>
 {% endblock %} {% block body %}
 
-<div class="container my-2" style="display: flex; justify-content: space-between;">
-  <h2 class="fw-bold  fst-italic">Your ToDo</h2>
-  <form class="d-flex" role="search" style="width: 400px;" method="post" action="{% url 'myfirsttodoapp:task' %}">
+<div class="container my-2" style="display: flex; justify-content: space-between">
+  <h2 class="fw-bold fst-italic">Your ToDo</h2>
+  <form class="d-flex" role="search" style="width: 400px" method="post" action="{% url 'myfirsttodoapp:task' %}">
     {% csrf_token %}
-    <input class="form-control me-2" name="search"  type="search" placeholder="Search" aria-label="Search" />
+    <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" />
     <button class="btn btn-outline-success" type="submit">Search</button>
   </form>
 </div>
@@ -44,7 +44,9 @@
     </div>
 
     <div class="d-flex mt-4 mb-3 ms-2">
-      <button type="submit" class="fw-bold btn btn-outline-dark btn-primary btn-sm px-3">Add Task</button>
+      <button type="submit" class="fw-bold btn btn-outline-dark btn-primary btn-sm px-3">
+        Add Task
+      </button>
     </div>
   </form>
 </div>
@@ -52,10 +54,11 @@
 <div class="container">
   <span>
     <div class="row justify-content-end">
-      <div class="col-auto d-flex"> <!-- Use d-flex and align-items-center to align items vertically -->
+      <div class="col-auto d-flex">
+        <!-- Use d-flex and align-items-center to align items vertically -->
         <form action="{% url 'myfirsttodoapp:task' %}" id="priorityform" method="POST">
           {% csrf_token %}
-          <select name="priority_sort" class="form-control border" id="priority_sort"  style="height:37px;" >
+          <select name="priority_sort" class="form-control border" id="priority_sort" style="height: 37px">
             <option disabled selected>Sort By Priority</option>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
@@ -63,25 +66,26 @@
           </select>
         </form>
       </div>
-      <div class="badge bg-dark-subtle text-dark-emphasis text-wrap me-2" style="width:8rem;height:37px;padding:13px;">
+      <div class="badge bg-dark-subtle text-dark-emphasis text-wrap me-2"
+        style="width: 8rem; height: 37px; padding: 13px">
         Total : {{total_count}}
       </div>
       &nbsp;
-      <div class="badge bg-dark-subtle text-dark-emphasis text-wrap" style="width:8rem;height:37px;padding:13px;">
+      <div class="badge bg-dark-subtle text-dark-emphasis text-wrap" style="width: 8rem; height: 37px; padding: 13px">
         Completed : {{completed}}
       </div>
     </div>
   </span>
 </div>
 
-
-<div class="container mt-2 border shadow-sm ms-1 me-1 mb-5 bg-body-tertiary rounded">
+<div class="container mt-3 border shadow-sm ms-1 me-1 mb-5 bg-body-tertiary rounded">
+  <!-- Display tasks -->
   <form id="myForm" action="{% url 'myfirsttodoapp:mark_as_completed' %}" method="POST">
-    {% csrf_token %} {% if tasks|length == 0 %}
+    {% csrf_token %} {% if page_obj.object_list|length == 0 %}
     <div class="alert alert-dark my-1" role="alert">
       No ToDo's Found, Please Add it.
     </div>
-    {% else %} {% for task in tasks %}
+    {% else %} {% for task in page_obj.object_list %}
     <div class="row container-fluid border p-1 mx-1 my-2 text-bg-light scrollable-div">
       <div class="col-1">
         <input class="form-check-input mt-2 border border-danger mycheckbox" title="Mark As Completed" type="checkbox"
@@ -97,19 +101,61 @@
         <span>
           {% if task.is_task_completed %}
           <a class="btn btn-danger btn-sm ms-4" href="{% url 'myfirsttodoapp:delete_task' task.id %}"
-          role="button">Delete</a>
+            role="button">Delete</a>
           {% else %}
           <a class="btn btn-success btn-sm ms-4" href="{% url 'myfirsttodoapp:update_task' task.id %}"
             role="button">Update</a>
-            <a class="btn btn-danger btn-sm" href="{% url 'myfirsttodoapp:delete_task' task.id %}"
+          <a class="btn btn-danger btn-sm" href="{% url 'myfirsttodoapp:delete_task' task.id %}"
             role="button">Delete</a>
           {% endif %}
-          
         </span>
       </div>
     </div>
     {% endfor %} {% endif %}
   </form>
+
+  <!-- Pagination -->
+  <div class="pagination justify-content-center">
+    <ul class="pagination mt-2">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page=1">&laquo; First</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">First</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">Previous</span>
+      </li>
+      {% endif %}
+
+      <li class="page-item active">
+        <span class="page-link">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+      </li>
+
+      {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Next</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">Last</span>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
 </div>
 
 <script>
@@ -120,8 +166,10 @@
     });
   });
 
-  document.getElementById('priority_sort').addEventListener('change', function() {
-    document.getElementById("priorityform").submit();
-  });
+  document
+    .getElementById("priority_sort")
+    .addEventListener("change", function () {
+      document.getElementById("priorityform").submit();
+    });
 </script>
 {% endblock%}

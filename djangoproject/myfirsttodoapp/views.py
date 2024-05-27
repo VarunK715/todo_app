@@ -4,9 +4,9 @@ from django.utils import timezone
 from datetime import date,timedelta
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView,ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 
 def home(request):
@@ -35,6 +35,17 @@ def task(request):
             dataf = ToDoApp.objects.filter(user=request.user)
     else:
         dataf = ToDoApp.objects.filter(user=request.user)
+        #print(f"inside pagination --- {dataf}")
+        paginator = Paginator(dataf, 4)  # Show 2 tasks per page
+        page_number = request.GET.get('page')
+        try:
+            page_obj = paginator.get_page(page_number)  # returns the desired page object
+        except PageNotAnInteger:
+            # if page_number is not an integer then assign the first page
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            # if page is empty then return last page
+            page_obj = paginator.page(paginator.num_pages)
 
     total = len(dataf)
     tomorrow = date.today() + timedelta(days=1)
@@ -48,7 +59,7 @@ def task(request):
     completed_task = ToDoApp.objects.filter(user=request.user, is_task_completed=True)
     completed_total = len(completed_task)
     
-    return render(request, 'todoapp/index.html', {'tasks': dataf, 'total_count': total, 'completed': completed_total})
+    return render(request, 'todoapp/index.html', {'total_count': total, 'completed': completed_total,"page_obj": page_obj})
 
 
 @login_required
@@ -96,3 +107,4 @@ def mark_as_completed(request):
         completed_task.clear()
         return redirect('myfirsttodoapp:task')
     return redirect('myfirsttodoapp:home')
+
